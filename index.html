@@ -37,4 +37,100 @@
 <script>
 function getCookie(name) {
   var value = "; " + document.cookie;
-  var parts = 
+  var parts = value.split("; " + name + "=");
+  if (parts.length == 2) return parts.pop().split(";").shift();
+}
+cookieName = 'OPUSCAPITA_LANGUAGE';
+var language = getCookie(cookieName);
+if(!language) {
+  var language = navigator.language || navigator.userLanguage;
+}
+
+//alert('lang=' + language);
+var translationJson =  document.getElementById('jsonTranslations').innerText;
+//alert('translations=' + translations.innerText.title.de);
+var translations = JSON.parse(translationJson);
+
+document.title=translations.title[language];
+/*function translate() {
+  for (k in translations) {
+    e = document.getElementById('i18n_'+k);
+    console.log('key ' + k + ', element = ' + e);
+    if(e) {
+      e.innerHTML = translations[k][language];
+    }
+  }
+}
+$(document).ready(translate);
+*/
+function setCookie(cookieName, value) {
+}
+
+function triggerTranslation() {
+  var ls = document.getElementById('languageSelect');
+  var sv = ls.selectedValue;
+  console.log('translate request, getting current selected value '+ sv);
+  language = sv;
+  $.cookie(cookieName, language);
+}
+
+</script>
+  <div class="container">
+    <div class="login-card">
+      <div class="login-client-image">
+
+      </div>
+        <div class="row" style="margin-top: 3em;">
+          <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3" style="background: #fff; box-shadow: 0px 0px 20px rgba(0,0,0,.25); background: #fff; box-shadow: 0px 0px 20px rgba(0,0,0,.25); padding: 1em 0 4.5em 0;">
+            <div class="row">
+              <div class="col-xs-10 col-xs-offset-1">
+                <h2 id="i18n_header">Maintenance ongoing</h1>
+                <select id="languageSelect" onChange="triggerTranslation">
+                    <option value="en" id="i18n_label_lang_en">English</option>
+                    <option value="de" id="i18n_label_lang_de">German</option>
+                </select>
+
+                <br />
+                <p id="i18n_text1">
+                The site is currently not available due to maintenance.
+                Please try again later.
+                </p>
+
+                <footer>
+                  <div class="copyright text-center">
+                    &copy; 2001 &mdash; 2017&nbsp;&nbsp;
+                    <a href="http://www.opuscapita.com/">
+                      <img src="/img/oc-logo-rgb.svg" style="height: 1.2em;">
+                    </a>
+                  </a></div>
+                </footer>
+              </div><!-- /col -->
+            </div><!-- /row -->
+
+
+          </div><!-- /col -->
+        </div><!-- /row -->
+    </div>
+  </div>
+</body>
+<link rel="stylesheet" type="text/css" media="screen" title="no title" charset="utf-8" href="vendor/bootstrap-social/css/bootstrap-social.css" />
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="/js/jquery-3.0.0.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="/js/main.js" type="text/javascript" charset="utf-8"></script>
+<script src="/js/docs.min.js" type="text/javascript" charset="utf-8"></script>
+<script>
+function translate() {
+  for (k in translations) {
+    e = document.getElementById('i18n_'+k);
+    console.log('key ' + k + ', element = ' + e);
+    if(e) {
+      e.innerHTML = translations[k][language];
+    }
+  }
+}
+$(document).ready(translate);
+</script>
+</html>
