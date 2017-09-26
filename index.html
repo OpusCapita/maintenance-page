@@ -1,0 +1,43 @@
+<body style="background: url(/img/oc-register-bg.jpg) top center; background-size: 100% auto; background-attachment: fixed;">
+
+  <div class="container">
+    <div class="login-card">
+      <div class="login-client-image">
+
+      </div>
+        <input type="hidden" name="uuid" value="<%= uuid %>"/>
+        <div class="row" style="margin-top: 3em;">
+          <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3" style="background: #fff; box-shadow: 0px 0px 20px rgba(0,0,0,.25); background: #fff; box-shadow: 0px 0px 20px rgba(0,0,0,.25); padding: 1em 0 4.5em 0;">
+            <div class="row">
+              <div class="col-xs-10 col-xs-offset-1">
+                <h2>Maintenance ongoing</h1>
+                <select onChange="window.location.search = '&lang=' + document.getElementById('languageSelect').selectedValue">
+                    <option value="en">English</option>
+                    <option value="de">German</option>
+                </select>
+
+                <br />
+
+                <div class="text-left">
+                  <a href="/auth/password/reset" style="color: #dc5f5f; text-decoration: underline; font-size: 14px; text-align: right;"><%=i18n.forgotPassword %>?</a>
+                </div>
+
+                <footer>
+                  <div class="copyright text-center">
+                    &copy; 2001 &mdash; 2017&nbsp;&nbsp;
+                    <a href="http://www.opuscapita.com/">
+                      <img src="/img/oc-logo-rgb.svg" style="height: 1.2em;">
+                    </a>
+                  </a></div>
+                </footer>
+              </div><!-- /col -->
+            </div><!-- /row -->
+
+
+          </div><!-- /col -->
+        </div><!-- /row -->
+    </div>
+  </div>
+</body>
+<link rel="stylesheet" type="text/css" media="screen" title="no title" charset="utf-8" href="/vendor/bootstrap-social/css/bootstrap-social.css" />
+
