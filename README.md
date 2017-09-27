@@ -25,7 +25,7 @@ Then paste the key into stdin. E.g. if setting up maintenance page for prod, use
 ```docker service create --name nginx --secret kong-ssl-key --publish mode=host,published=80,target=80 --publish mode=host,published=443,target=443 opuscapita/maintenance-page```
 
 ## Development
-```sudo docker run --restart always -d -p 80:80 -v /home/<your user name>/maintenance-page:/usr/share/nginx/html opuscapita/maintenance-page```
+```sudo docker run --restart always -d -p 80:80 -v /home/<your user name>/maintenance-page/html:/usr/share/nginx/html opuscapita/maintenance-page```
 
 You can then browse localhost or any public IP your dev box has.
 
