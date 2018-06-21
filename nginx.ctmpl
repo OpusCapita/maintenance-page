@@ -13,8 +13,8 @@ events {
 
 http {
     server {
-      listen @PORT@;
-      listen @SSLPORT@ ssl;
+      listen 80;
+      listen 443 ssl;
       server_name         @SERVERNAME@;
       ssl_certificate     sslcert.crt;
       ssl_certificate_key sslkey;
