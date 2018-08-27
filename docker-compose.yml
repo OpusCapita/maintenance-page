@@ -1,0 +1,38 @@
+version: '3'
+services:
+  main:
+    depends_on:
+      - consul
+      - registrator
+    labels:
+      SERVICE_NAME: 'maintenance-page'  # Service name used by Registrator for adding to Consul's service discovery registry.
+    environment:
+      SSL_CERT: ${SSL_CERT}
+      SSL_PRIVATE_KEY: ${SSL_PRIVATE_KEY}
+      SERVERNAME: ${SERVERNAME}
+      SERVICE_80_CHECK_HTTP: /index.html
+      SERVICE_80_CHECK_INTERVAL: 15s
+      SERVICE_80_CHECK_TIMEOUT: 3s
+      NODE_ENV: $NODE_ENV
+    ports:
+      - '80:80'
+      - '443:443'
+
+  registrator:
+    image: gliderlabs/registrator
+    command: consul://consul:8500
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock
+    depends_on:
+      - consul
+    restart: on-failure
+
+  consul:
+    image: consul:latest
+    ports:
+      - '8400:8400'
+      - '8500:8500'
+      - '8600:53/udp'
+    labels:
+      SERVICE_IGNORE: 'true'  # Do not add any of Consul's services to Consul's service discovery registry.
+    command: [agent, '-server', '-ui', '-bootstrap', '-client=0.0.0.0']
