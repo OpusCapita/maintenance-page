@@ -1,0 +1,17 @@
+{
+  "default":{
+    "name":"${serviceName}",
+    "constraint":["engine.labels.nodetype==edge"],
+    "publish":["mode=host,target=80,published=80,protocol=tcp","mode=host,target=443,published=443,protocol=tcp"],
+    "host":["consul:172.17.0.1"],
+    "env":[
+           "SERVICE_NAME=${serviceName}",
+           "SERVICE_80_CHECK_HTTP=/index.html",
+           "SERVICE_80_CHECK_INTERVAL=15s",
+           "SERVICE_80_CHECK_TIMEOUT=3s",
+           "NODE_ENV=production",
+           "SSL_CERT=${SSL_:env_CERT}",
+           "SSL_PRIVATE_KEY=${SECRET_:env_SSL_KEY}"
+           ]
+  }
+}
