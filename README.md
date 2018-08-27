@@ -1,28 +1,19 @@
 # maintenance-page
 
 This is a very small app that allows to host some static content for maintenance cases.
-We are running from nginx base image and adding some static files to /usr/share/nginx/html directory inside container.
-
-## Current env
-It is deployed in besTest resource group on OC Azure
-Can be reached via public IP:
-
-http://52.174.187.88/
-
-## Activating the maintenance page
-Configure the azure DNS domain label of target env to maintenance-page env.
-E.g. 
-1. Find public IP on prod env, got to configuration and change it from bnp-prod to whatever (you can do this via powershell as well)
-2. Find besTest dh1-ip, go to configuration and set to bnp-prod
-
-This will cause all traffic to businessnetwork.opuscapita.com to hit dh1 instead.
+We are running from nginx base image and adding some static files to /usr/share/nginx/html directory inside container via bind mount
 
 ## Deployment
 
-```docker secret create kong-ssl-key -```
-Then paste the key into stdin. E.g. if setting up maintenance page for prod, use the kong-ssl-key from prod.
+We deploy this on edge nodes in each target andariel that needs it. Same as kong it requires kong-ssl-key to be added as docker secret in order to use SSL Certs.
+Also in current version you need to checkout mainenance-page github to local disk on each of the target edge nodes and then define a docker service that maps them via bind mount.
 
-```docker service create --name nginx --secret kong-ssl-key --publish mode=host,published=80,target=80 --publish mode=host,published=443,target=443 opuscapita/maintenance-page```
+```docker service create --name maintenance-page --secret kong-ssl-key --constraint "engine.labels.nodetype==edge" --mount type=bind,source=/home/gr4per/maintenance-page/html,destination=/usr/share/nginx/html --publish 80:80 --publish 443:443 opuscapita/maintenance-page```
+
+## Activating the maintenance page
+
+In order to access it, we need to adjust the load balancing rules to point to 80/443 locally instead of 8080/8443 (which is kong).
+This will cause all traffic to businessnetwork.opuscapita.com to hit dh1 instead.
 
 ## Development
 ```sudo docker run --restart always -d -p 80:80 -v /home/<your user name>/maintenance-page/html:/usr/share/nginx/html opuscapita/maintenance-page```
