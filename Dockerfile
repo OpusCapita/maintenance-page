@@ -15,3 +15,5 @@ HEALTHCHECK --interval=15s --timeout=3s --retries=12 \
   CMD curl --silent --fail http://localhost:80/index.html || exit 1
 
 CMD /etc/nginx/entrypoint.sh
+HEALTHCHECK --interval=15s --timeout=3s --retries=12 \
+  CMD curl --silent --fail http://localhost:80/index.html || exit 1
